@@ -4,17 +4,10 @@ var http = require("http").Server(app);
 var io = require("socket.io")(http);
 var Log = require ("log"),
 	log = new Log("debug");
-var channelManager = require("./channelManager")
 var coreEvents = require('./events/core.event');
 var config = require("./config.js");
+var redisManager = require("./redisManager")(io,log);
 
-var redis = require("redis")
-, redisClient = redis.createClient(config.redis.port);
-
-/**
- * Redis messages
- */
-channelManager(io, redisClient, log);
 
 
 io.on('connection',function(socket){
@@ -22,7 +15,7 @@ io.on('connection',function(socket){
 	log.info("Client %s connected", socket.client.id);
 	
 	// socket events 
-	coreEvents(socket, redisClient, log);
+	coreEvents(socket, redisManager, log);
 
 });
 
@@ -39,4 +32,4 @@ function start (){
 }
 
 
-exports.start = start; 
+exports.start = start;
