@@ -1,13 +1,13 @@
 module.exports = function(io, log){
   var mod = {};
+  var request = require('request');
   var config = require("./config.js");
   var constants = require("./constants");
-  //example -> https://gist.github.com/reu/5342276
   var redis = require("redis")
     , subscriber = redis.createClient(config.redis.port)
     , publisher  = redis.createClient(config.redis.port);
 
-
+  //Redis error log
   publisher,subscriber.on("error",function(err){
     log.error(err);
   });
@@ -25,15 +25,24 @@ module.exports = function(io, log){
     if(channel == constants.PCR_CHANNEL){
       var mge = JSON.parse(message);
       switch(mge.opcode){
-        case constants.GETPL_CMD:        
-          console.log(mge);
-          //aca meter llamada al playout-core para obtener los medias por sus paths
-          //io.sockets.emit("core_getPlResp", mge.resp);
+        case constants.GETPL_CMD:    
+
+          getMediasByPathList(mge.resp, function(err, resp){
+              if(!err){
+                log.info("GETPL Response : ");
+                log.info(resp);
+                io.sockets.emit("core_getPlResp", resp);
+              }
+                
+          })                   
           break;
+
         case constants.GETTIMERS_CMD:
+          
           console.log(mge);
           io.sockets.emit("core_getTimersResp", mge.resp);
           break;
+
         default :
           log.info("opcode not found");
 
@@ -51,6 +60,29 @@ module.exports = function(io, log){
 
   }
 
+  /**Private method */
+  var getMediasByPathList = function(pathList,callback){
+    
+    //options to call mp-playout-api
+    var options = {
+        uri : config.apis.mp_playout_api + "medias/path/"+ JSON.stringify(pathList),
+        method : 'GET'
+    }; 
+
+    request(options, function (error, response, body) {
+        
+        if (!error && response.statusCode == 200) {
+        
+            callback(error,body)
+        }
+        else {
+            log.error(response.statusCode);
+            log.error(error);
+        }
+        
+    });
+  }
+
   return mod;
-  
+
 };
