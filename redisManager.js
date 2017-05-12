@@ -73,7 +73,7 @@ module.exports = function(io, log){
         
         if (!error && response.statusCode == 200) {
         
-            callback(error,body)
+            callback(error,JSON.parse(body));
         }
         else {
             log.error(response.statusCode);
