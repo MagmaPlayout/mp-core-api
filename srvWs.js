@@ -11,9 +11,7 @@ var redisManager = require("./redisManager")(io,log);
 
 
 io.on('connection',function(socket){
-
-	log.info("Client %s connected", socket.client.id);
-	
+	//log.info("Client %s connected", socket.client.id);	
 	// socket events 
 	coreEvents(socket, redisManager, log);
 

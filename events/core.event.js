@@ -8,6 +8,7 @@ module.exports = function (socket, redisManager, log) {
   
   /**
    * Send PLAYNOW command to redis
+   * deprecated
    */
   socket.on('core_playMedia', function (media) {
     
@@ -18,6 +19,7 @@ module.exports = function (socket, redisManager, log) {
 
   /**
    * Send PPLPLAYNOW command to redis
+   * deprecated
    */
   socket.on('core_playPL', function (pl) {
     
@@ -26,43 +28,72 @@ module.exports = function (socket, redisManager, log) {
 
   });
 
-  /**
+  /** 
    * Send APND command to redis
+   * @param {PlayoutModel} poItem = playout list item
    */
-  socket.on('core_apnd', function (media) {
+  socket.on('core_apnd', function (poItem) {
 
     log.info(constants.APND_CDM);
-    redisManager.publish(constants.PCCP_CHANNEL, constants.APND_CDM + JSON.stringify(media));
+    redisManager.publish(constants.PCCP_CHANNEL, constants.APND_CDM + JSON.stringify(poItem.media));
 
   });
 
   /**
    * Send PLAPND command to redis
+   * @param {PlayoutModel} poItem = playout list item
    */
-  socket.on('core_plApnd', function (pl) {   
+  socket.on('core_plApnd', function (poItem) {   
 
-    log.info(constants.PLAPND_CMDD);
-    redisManager.publish(constants.PCCP_CHANNEL, constants.PLAPND_CDM + JSON.stringify(pl));
+    log.info(constants.PLAPND_CMD);
+    redisManager.publish(constants.PCCP_CHANNEL, constants.PLAPND_CDM + JSON.stringify(poItem.pl));
 
   });
 
   /**
    * Send REMOVE command to redis
+   * @param {PlayoutModel} poItem = playout list item
    */
-  socket.on('core_remove', function (media) {
+  socket.on('core_remove', function (poItem) {
 
     log.info(constants.REMOVE_CMD);
-    redisManager.publish(constants.PCCP_CHANNEL, constants.REMOVE_CMD + JSON.stringify(media));
+    log.info(poItem);
+    redisManager.publish(constants.PCCP_CHANNEL, constants.REMOVE_CMD + JSON.stringify(poItem));
 
   });
 
   /**
    * Send PLREMOVE command to redis
+   * @param {PlayoutModel} poItem = playout list item
    */
-  socket.on('core_plRemove', function (pl) {
+  socket.on('core_plRemove', function (poItem) {
 
     log.info(constants.PLREMOVE_CMD);
-    redisManager.publish(constants.PCCP_CHANNEL, constants.PLREMOVE_CMD + JSON.stringify(pl));
+    redisManager.publish(constants.PCCP_CHANNEL, constants.PLREMOVE_CMD + JSON.stringify(poItem));
+
+  });
+
+  /**
+   * Send GOTO command to redis channel
+   * @param {PlayoutModel} poItem = playout list item
+   */
+  socket.on('core_goto', function (poItem) {
+
+    log.info(constants.GOTO_CDM);
+    log.info(poItem);
+    redisManager.publish(constants.PCCP_CHANNEL, constants.GOTO_CDM + JSON.stringify(poItem));
+
+  });
+
+   /**
+   * Send MOVE command to redis channel
+   * @param {PlayoutModel} poItem = playout list item
+   */
+  socket.on('core_move', function (poItem) {
+
+    log.info(constants.MOVE_CDM);
+    log.info(poItem);
+    redisManager.publish(constants.PCCP_CHANNEL, constants.MOVE_CDM + JSON.stringify(poItem));
 
   });
 

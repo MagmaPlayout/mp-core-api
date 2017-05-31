@@ -10,6 +10,8 @@ module.exports = Object.freeze({
     PLAPND_CMD : "PLAPND ",
     REMOVE_CMD : "REMOVE ",
     PLREMOVE_CMD : "PLREMOVE ",
+    GOTO_CDM : "GOTO ",
+    MOVE_CDM : "MOVE ",
     GETPL_CMD : "GETPL",
     GETTIMERS_CMD : "GETTIMERS"
 });
