@@ -35,7 +35,7 @@ module.exports = function (socket, redisManager, log) {
   socket.on('core_apnd', function (poItem) {
 
     log.info(constants.APND_CDM);
-    redisManager.publish(constants.PCCP_CHANNEL, constants.APND_CDM + JSON.stringify(poItem.media));
+    redisManager.publish(constants.PCCP_CHANNEL, constants.APND_CDM + JSON.stringify(poItem));
 
   });
 
