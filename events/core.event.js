@@ -39,6 +39,16 @@ module.exports = function (socket, redisManager, log) {
 
   });
 
+  /** 
+   * Send CALLCAHNGE command to redis
+   */
+  socket.on('core_calchange', function () {
+
+    log.info(constants.CALCHANGE_CMD);
+    redisManager.publish(constants.PCCP_CHANNEL, constants.CALCHANGE_CMD);
+
+  });
+
   /**
    * Send PLAPND command to redis
    * @param {PlayoutModel} poItem = playout list item
