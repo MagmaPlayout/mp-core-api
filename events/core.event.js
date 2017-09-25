@@ -127,17 +127,18 @@ module.exports = function (socket, redisManager, log) {
 
   });
 
-  //------------------------------------------------------------------------------
 
+  /**
+   * Send SWITCHMODE command to redis channel(PCCP)
+   * @param {CmdModel} cmdModel 
+   */
+  socket.on('core_switchmode', function (cmdModel) {
 
-  /*
-  // deprecated?
-  socket.on('core_schedulerPlay', function (data) {
-    
-    lof.info('core_schedulerPlay request');
-
-    redisManager.publish( PCCPChannel, "PLSCHED " + data.plId + " " + data.start);
+    log.info(constants.SWITCHMODE_CMD);
+    log.info(cmdModel);
+    redisManager.publish(constants.PCCP_CHANNEL, constants.SWITCHMODE_CMD + JSON.stringify(cmdModel));
 
   });
-  */
+
+  //------------------------------------------------------------------------------
 }

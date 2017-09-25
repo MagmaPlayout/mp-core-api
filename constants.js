@@ -14,6 +14,7 @@ module.exports = Object.freeze({
     MOVE_CDM : "MOVE ",
     GETPL_CMD : "GETPL",
     GETTIMERS_CMD : "GETTIMERS",
-    CALCHANGE_CMD: "CALCHANGE"
+    CALCHANGE_CMD: "CALCHANGE",
+    SWITCHMODE_CMD: "SWITCHMODE"
 
 });
