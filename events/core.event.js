@@ -145,9 +145,9 @@ module.exports = function (socket, redisManager, log) {
    * @param {applyFilter} needs to have a "from", "to" and "filter"
    **/
   socket.on('core_applyFilters', function(applyFilter)){
-		log.info(constants.APPLYFILTER_CMD);
-		log.info(applyFilter);
-		redisManager.publish(constants.PCCP_CHANNEL, constants.APPLYFILTER_CMD + JSON.stringify(applyFilter));
+	log.info(constants.APPLYFILTER_CMD);
+	log.info(applyFilter);
+	redisManager.publish(constants.PCCP_CHANNEL, constants.APPLYFILTER_CMD + JSON.stringify(applyFilter));
   }
 
   //------------------------------------------------------------------------------
