@@ -144,11 +144,11 @@ module.exports = function (socket, redisManager, log) {
    * Send a APPLYFILTER command to redis PCCP channel.
    * @param {applyFilter} needs to have a "from", "to" and "filter"
    **/
-  socket.on('core_applyFilters', function(applyFilter)){
+  socket.on('core_applyFilters', function(applyFilter){
 	log.info(constants.APPLYFILTER_CMD);
 	log.info(applyFilter);
 	redisManager.publish(constants.PCCP_CHANNEL, constants.APPLYFILTER_CMD + JSON.stringify(applyFilter));
-  }
+  });
 
   //------------------------------------------------------------------------------
 }
